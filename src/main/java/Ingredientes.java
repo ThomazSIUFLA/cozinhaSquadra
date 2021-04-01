@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Ingredientes {
@@ -23,5 +24,10 @@ public class Ingredientes {
 
     public void setDataValidade(Date dataValidade) {
         this.dataValidade = dataValidade;
+    }
+
+    @Override
+    public String toString() {
+        return "\n O ingrediente "+nome+" e data de validade "+ dataValidade;
     }
 }

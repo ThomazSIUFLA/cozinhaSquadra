@@ -58,7 +58,7 @@ public class Prato {
     @Override
     public String toString() {
         return "O prato "+nome+" utiliza os ingredientes\n"+ listaIngredientes() +",\n"
-                + "e possui um tempo de preparo de "+ tempoPreparo + " custando R$"
+                + "e possui um tempo de preparo de "+ tempoPreparo + " minutos custando R$"
                 + String.format("%.2f", valor) +"\n---------------------------------------------------------\n";
     }
 }

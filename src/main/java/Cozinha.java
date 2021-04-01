@@ -3,7 +3,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Cozinha {
+    private static int codCozinhas = 1;
     private int horaAbertura;
+    private int cod;
     private int horaFechamento;
     private String tipo;
     private Prato pratoPricipal;
@@ -11,6 +13,7 @@ public class Cozinha {
     private List<Cozinheiro> cozinheiros;
 
     public Cozinha(int horaAbertura, int horaFechamento, String tipo, Prato princ) {
+        this.cod = codCozinhas;
         this.horaAbertura = horaAbertura;
         this.horaFechamento = horaFechamento;
         this.tipo = tipo;
@@ -18,6 +21,7 @@ public class Cozinha {
         this.menu = new ArrayList<>();
         this.cozinheiros = new ArrayList<>();
         adicionarPrato(princ);
+        codCozinhas ++;
     }
 
     public void adicionarCozinheiro(Cozinheiro coz){
@@ -39,9 +43,9 @@ public class Cozinha {
     }
 
     public String listarCozinheiros(){
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
         for(Cozinheiro c : cozinheiros){
-            ret += c;
+            ret.append(c);
         }
         return ret+"\n";
     }
@@ -65,11 +69,15 @@ public class Cozinha {
     }
 
     public String listarPratos(){
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
         for(Prato c : menu){
-            ret += c;
+            ret.append(c);
         }
         return ret+"\n";
+    }
+
+    public int getCod(){
+        return cod;
     }
 
     public int getHoraAbertura() {
@@ -82,6 +90,10 @@ public class Cozinha {
 
     public int getHoraFechamento() {
         return horaFechamento;
+    }
+
+    public List<Prato> getMenu() {
+        return menu;
     }
 
     public void setHoraFechamento(int horaFechamento) {
@@ -98,10 +110,10 @@ public class Cozinha {
 
     @Override
     public String toString() {
-        return "Cozinha do tipo "+ tipo +"\n---------------------------------------------"
-                +"\nabre as "+horaAbertura+" e fecha as"+horaFechamento
+        return "Cozinha do tipo "+ tipo +" código: "+cod+"\n---------------------------------------------"
+                +"\nabre as "+horaAbertura+" e fecha as "+horaFechamento
                 +"\ntem como prato principal "+ pratoPricipal
-                +"\n possui "+getNumeroCozinheiros()+" sendo eles:"
+                +"\nPossui "+getNumeroCozinheiros()+"funcionários sendo eles:"
                 +"\n"+listarCozinheiros()
                 +"\nE serve "+getNumeroPratos()+" pratos diferentes"
                 +"\n********************MENU***********************"

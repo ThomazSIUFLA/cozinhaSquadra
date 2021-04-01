@@ -37,7 +37,7 @@ public class Cozinheiro {
 
     @Override
     public String toString() {
-        return " O cozinheiro" + nome + "possui " + (now().getNano() - anoNasc) +
-                " de idade, e sua especialidade é" + especialidade;
+        return " O cozinheiro < " + nome + " > possui " + (now().getNano() - anoNasc) +
+                " anos de idade, e sua especialidade é " + especialidade+"\n";
     }
 }

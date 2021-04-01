@@ -1,15 +1,20 @@
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-
-import static java.time.LocalTime.now;
+import java.util.*;
 
 public class Main {
+
+    private static List<Cozinha> cozinhas;
     public static void main(String[] args) throws ParseException {
+
+        cozinhas = new ArrayList<>();
+
         SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+
         Prato macarronada= new Prato("Macarronada",
-                Arrays.asList(new Ingredientes("macarrão",new Date()),
+                Arrays.asList(new Ingredientes("macarrão",parser.parse("10-01-2021")),
                 new Ingredientes("sal", parser.parse("10-10-2021")),
                 new Ingredientes("oleo", parser.parse("10-10-2021"))),
                 30, 10.50);
@@ -41,19 +46,136 @@ public class Main {
         mineira.adicionarCozinheiro(new Cozinheiro("André",1980,"Linguiceiro"));
         mineira.adicionarCozinheiro(new Cozinheiro("Vito", 1985, "lavar de pratos"));
         mineira.adicionarCozinheiro(new Cozinheiro("James",1950,"Garçom"));
+        cozinhas.add(mineira);
 
         Cozinha chinesa = new Cozinha(10,21,"Chinesa", yakissoba);
         chinesa.adicionarPrato(yakissoba);
         chinesa.adicionarCozinheiro(new Cozinheiro("kin jon un", 1970, "Yakissoba"));
         chinesa.adicionarCozinheiro(new Cozinheiro("ou in di", 1985, "lavar de pratos"));
         chinesa.adicionarCozinheiro(new Cozinheiro("jei hei nei",1950,"Garçom"));
+        cozinhas.add(chinesa);
 
-        Cozinha italiana = new Cozinha(10,21,"Italiana", yakissoba);
-        chinesa.adicionarPrato(macarronada);
-        chinesa.adicionarCozinheiro(new Cozinheiro("joão", 1970, "Macarronada"));
-        chinesa.adicionarCozinheiro(new Cozinheiro("leonardo", 1985, "lavar de pratos"));
-        chinesa.adicionarCozinheiro(new Cozinheiro("Chellini",1950,"Garçom"));
+        Cozinha italiana = new Cozinha(10,21,"Italiana", macarronada);
+        italiana.adicionarPrato(macarronada);
+        italiana.adicionarCozinheiro(new Cozinheiro("joão", 1970, "Macarronada"));
+        italiana.adicionarCozinheiro(new Cozinheiro("leonardo", 1985, "lavar de pratos"));
+        italiana.adicionarCozinheiro(new Cozinheiro("Chellini",1950,"Garçom"));
+        cozinhas.add(italiana);
 
+        menuPrincipal();
+    }
 
+    public static void menuPrincipal(){
+        int cond;
+        Scanner scan = new Scanner(System.in);
+        do {
+            System.out.println("Digite a opção");
+            System.out.println(
+                    """
+                            -------------------------------------
+                            | (0) PARA SAIR                       |
+                            | (1) PARA VER TODAS COZINHAS         |
+                            | (2) PARA MENU COZINHA               |
+                            --------------------------------------""");
+            System.out.print("---  Informe a opção: ");
+            cond = scan.nextInt();
+            switch (cond){
+                case 1:
+                    System.out.println(cozinhas);
+                break;
+                case 2:
+                    menuGeralCozinha();
+                break;
+                case 0:
+
+                break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
+        }while (cond != 0);
+    }
+
+    public static void menuGeralCozinha(){
+        int cond;
+        Scanner scan = new Scanner(System.in);
+        do {
+            System.out.println("===================MENU COZINHA=============================");
+            System.out.println("Digite a opção");
+            System.out.println(
+                    """
+                            -------------------------------------
+                            | (0) PARA VOLTAR AO MENU PRINCIPAL   |
+                            | (1) PARA LISTAR COZINHAS            |
+                            | (2) PARA SELECIONAR COZINHA         |
+                            --------------------------------------""");
+            System.out.print("---  Informe a opção: ");
+            cond = scan.nextInt();
+            switch (cond){
+                case 1:
+                    for(Cozinha c : cozinhas){
+                        System.out.println(c.getCod()+" --- "+c.getTipo());
+                    }
+                    break;
+                case 2:
+                    System.out.println("Entre com o código da cozinha ");
+                    detalheCozinha(scan.nextInt());
+                    break;
+                case 0:
+                    menuPrincipal();
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
+        }while (cond != 0);
+    }
+
+    public static void detalheCozinha(int cod){
+        int cond;
+        Scanner scan = new Scanner(System.in);
+        Cozinha coz = null;
+        for (Cozinha c : cozinhas){
+            if(c.getCod() == cod){
+                coz = c;
+            }
+        }
+        do {
+            System.out.println("===================DETALHES COZINHA=============================");
+            System.out.println("Digite a opção");
+            System.out.println(
+                    """
+                            -------------------------------------
+                            | (0) PARA VOLTAR AO MENU ANTERIOR    |
+                            | (1) PARA LISTAR PRATOS              |
+                            | (2) PARA LISTAR FUNCIONÁRIOS        |
+                            | (3) PARA LISTAR TODOS INGREDIENTES  |
+                            --------------------------------------""");
+            System.out.print("---  Informe a opção: ");
+            cond = scan.nextInt();
+            switch (cond){
+                case 1:
+                    assert coz != null;
+                    System.out.println(coz.listarPratos());
+                    break;
+                case 2:
+                    assert coz != null;
+                    System.out.println(coz.listarCozinheiros());
+                    break;
+                case 3:
+                    assert coz != null;
+                    for (Prato p: coz.getMenu()){
+                        System.out.println("Utilizado no prato: "+p.getNome());
+                        System.out.println(p.getIngredientes());
+                    }
+                    break;
+                case 0:
+
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
+        }while (cond != 0);
     }
 }
