@@ -1,5 +1,3 @@
-import jdk.swing.interop.SwingInterOpUtils;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -79,19 +77,11 @@ public class Main {
                             --------------------------------------""");
             System.out.print("---  Informe a opção: ");
             cond = scan.nextInt();
-            switch (cond){
-                case 1:
-                    System.out.println(cozinhas);
-                break;
-                case 2:
-                    menuGeralCozinha();
-                break;
-                case 0:
-
-                break;
-                default:
-                    System.out.println("Opção inválida!");
-                    break;
+            switch (cond) {
+                case 1 -> System.out.println(cozinhas);
+                case 2 -> menuGeralCozinha();
+                case 0 -> {}
+                default -> System.out.println("Opção inválida!");
             }
         }while (cond != 0);
     }
